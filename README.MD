@@ -2,6 +2,12 @@
 
 I am just playing around here and have no plans to actual create a serious fork. If you are interested in this code, please look to the original.
 
+## Changelist
+
+ * Water placed via the default editor now matches the colors used for water in DEMO.ZZT,
+ * Keys on the HUD that the player does not have are now drawn in black-on-dark-blue, making a key silhouette
+ * Board exits are listed beneath keys
+
 # The Reconstruction of ZZT
 
 The Reconstruction of ZZT is a reverse-engineered recreation of the source code to the last official release of ZZT,

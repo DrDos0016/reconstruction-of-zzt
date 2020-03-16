@@ -1131,8 +1131,29 @@ procedure GameUpdateSidebar;
 				if World.Info.Keys[i] then
 					VideoWriteText(71 + i, 12, $18 + i, ElementDefs[8].Character)
 				else
-					VideoWriteText(71 + i, 12, $1F, ' ');
+					VideoWriteText(71 + i, 12, $10, ElementDefs[8].Character);
 			end;
+
+            { Display exits: West / South / North / East }
+            if Board.Info.NeighborBoards[2] <> 0 then
+                VideoWriteText(72, 13, $1E, #27)
+            else
+                VideoWriteText(72, 13, $10, #27);
+
+            if Board.Info.NeighborBoards[1] <> 0 then
+                VideoWriteText(73, 13, $1E, #25)
+            else
+                VideoWriteText(73, 13, $10, #25);
+
+            if Board.Info.NeighborBoards[0] <> 0 then
+                VideoWriteText(74, 13, $1E, #24)
+            else
+                VideoWriteText(74, 13, $10, #24);
+
+            if Board.Info.NeighborBoards[3] <> 0 then
+                VideoWriteText(75, 13, $1E, #26)
+            else
+                VideoWriteText(75, 13, $10, #26);
 
 			if SoundEnabled then
 				VideoWriteText(65, 15, $1F, ' Be quiet')
@@ -1564,6 +1585,16 @@ procedure GamePlayLoop(boardChanged: boolean);
 					CurrentStatTicked := Board.StatCount + 1;
 					World.Info.IsSave := true;
 				end;
+
+                if (InputKeyPressed = 'P') then begin
+                    { Unpause }
+					GamePaused := false;
+					SidebarClearLine(5);
+					CurrentTick := Random(100);
+					CurrentStatTicked := Board.StatCount + 1;
+					World.Info.IsSave := true;
+                end;
+
 
 			end else begin { not GamePaused }
 				if CurrentStatTicked <= Board.StatCount then begin
