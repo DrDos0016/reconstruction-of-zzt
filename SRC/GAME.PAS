@@ -1398,6 +1398,18 @@ procedure GameDebugPrompt;
 				WorldClearFlag(input);
 		end;
 
+        { Execute ZZT-OOP }
+        if input[1] = '#' then begin
+            { Put the code into the player's stat }
+            {OopExecute(0, DataPos, 'Interaction');}
+            input := Concat(Copy(input, 1, Length(input)), '-');
+            Board.Stats[0].Data^ := input;
+            Board.Stats[0].DataPos := 1;
+            Board.Stats[0].DataLen := Length(input);
+            OopExecute(0, Board.Stats[0].DataPos, 'Interaction');
+        end;
+
+
 		DebugEnabled := WorldGetFlagPosition('DEBUG') >= 0;
 
 		if input = 'HEALTH' then
@@ -1438,6 +1450,7 @@ procedure GamePlayLoop(boardChanged: boolean);
 	var
 		exitLoop: boolean;
 		pauseBlink: boolean;
+        audioBufferLength: string[3];
 	procedure GameDrawSidebar;
 		begin
 			SidebarClear;
@@ -1474,6 +1487,7 @@ procedure GamePlayLoop(boardChanged: boolean);
 				VideoWriteText(65, 22, $1F, ' Pause');
 				VideoWriteText(62, 23, $70, ' Q ');
 				VideoWriteText(65, 23, $1F, ' Quit');
+
 			end else if GameStateElement = E_MONITOR then begin
 				SidebarPromptSlider(false, 66, 21, 'Game speed:;FS', TickSpeed);
 				VideoWriteText(62, 21, $70, ' S ');
@@ -1608,6 +1622,13 @@ procedure GamePlayLoop(boardChanged: boolean);
 			end;
 
 			if (CurrentStatTicked > Board.StatCount) and not GamePlayExitRequested then begin
+                if Length(SoundBuffer) > 0 then begin
+                    { Write audio buffer length to sidebar }
+                    VideoWriteText(75, 24, $1E, #14 + ':' );
+                    Str(Length(SoundBuffer) - SoundBufferPos + 1, audioBufferLength);
+                    VideoWriteText(77, 24, $1E, audioBufferLength + '   ');
+                end;
+
 				{ all stats ticked }
 				if SoundHasTimeElapsed(TickTimeCounter, TickTimeDuration) then begin
 					{ next cycle }
