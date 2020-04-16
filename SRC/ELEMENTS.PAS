@@ -1555,7 +1555,7 @@ procedure InitElementDefs;
 		ElementDefs[3].Name := 'Monitor';
 
 		ElementDefs[19].Character := #176;
-		ElementDefs[19].Color := $9F;
+		ElementDefs[19].Color := $F9;
 		ElementDefs[19].PlaceableOnTop := true;
 		ElementDefs[19].EditorCategory := CATEGORY_TERRAIN;
 		ElementDefs[19].TouchProc := ElementWaterTouch;
